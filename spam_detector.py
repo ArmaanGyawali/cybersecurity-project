@@ -1,6 +1,6 @@
+#import libraries
 import sqlite3
 import pandas as pd
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -13,9 +13,11 @@ data['label'] = data['label'].map({1 : 'phishing', 0:'safe'})
 
 print(data)
 
+#get email text and labels
 emails = data["text_combined"]
 labels = data["label"]
 
+#split dataset into training and testing data
 X_train, X_test, y_train, y_test = train_test_split(emails, labels, test_size=0.2)
 
 #convert text to numbers
@@ -27,6 +29,7 @@ X_test_vec = vectorizer.transform(X_test)
 model = RandomForestClassifier()
 model.fit(X_train_vec, y_train)
 
+#test model accuracy
 predictions = model.predict(X_test_vec)
 print(f"\nModel Accuracy: {accuracy_score(y_test, predictions) * 100:.2f}%")
 
